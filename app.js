@@ -11,7 +11,7 @@ var express = require('express'),
 app.post('/post.json', function(request, response) {
   console.log(request)
   io.sockets.in(req.params.channel).emit(req.params.event_name, req.params.message);
-  response.send(true);
+  response.send({'message_sent': true});
 })
 
 
