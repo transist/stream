@@ -1,15 +1,20 @@
 var express = require('express'),
     io = require('socket.io')
    app = express.createServer()
-  , io = io.listen(app)
-  , nicknames = {};
+  , io = io.listen(app);
+   var clients = {};
 
   app.get('/', function(request, response) {
     response.send('Hello World!');
   });
 
+app.post('post', function() {
+  io.sockets.in(req.params.channel).emit(req.params.event_name, req.params.message)
+})
+
 
 io.sockets.on('connection', function (socket) {
+  clients[socket.id] = socket;
   console.log('socket connection')
   // socket.on('user message', function (msg) {
   //   socket.broadcast.emit('user message', 'test', msg);
