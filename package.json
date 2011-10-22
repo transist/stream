@@ -6,11 +6,8 @@
   , "author": "Scott Ballantyne <ussballantyne@gmail.com>"
   , "dependencies": {
     "express": "*"
-    , "jade": "*"
     , "socket.io": "*"
     
   }
-  , "devDependencies": { "vows": "*" }
-  
   ,  "engine": "node >= 0.4.7"
 }
