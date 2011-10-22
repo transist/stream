@@ -8,8 +8,10 @@ var express = require('express'),
     response.send('Hello World!');
   });
 
-app.post('post', function() {
-  io.sockets.in(req.params.channel).emit(req.params.event_name, req.params.message)
+app.post('post', function(request, response) {
+  console.log()
+  io.sockets.in(req.params.channel).emit(req.params.event_name, req.params.message);
+  response.send(true);
 })
 
 
