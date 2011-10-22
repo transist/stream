@@ -4,6 +4,10 @@ var express = require('express'),
   , io = io.listen(app)
   , nicknames = {};
 
+  app.get('/', function(request, response) {
+    response.send('Hello World!');
+  });
+
 
 io.sockets.on('connection', function (socket) {
   console.log('socket connection')
