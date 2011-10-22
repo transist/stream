@@ -1,0 +1,16 @@
+{
+  "name": "stream"
+  , "version": "0.0.1"
+  , "private": true
+  , "description": "stream"
+  , "author": "Scott Ballantyne <ussballantyne@gmail.com>"
+  , "dependencies": {
+    "express": "*"
+    , "jade": "*"
+    , "socket.io": "*"
+    
+  }
+  , "devDependencies": { "vows": "*" }
+  
+  ,  "engine": "node >= 0.4.7"
+}
