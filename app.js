@@ -30,6 +30,11 @@ io.sockets.on('connection', function (socket) {
   //   }
   // });
   // 
+  socket.on('new_user', function (data) {
+    console.log(data)
+    socket.broadcast.emit('new_user_message', 'test');
+  });
+  
   socket.on('new_user_message', function (data) {
     console.log(data)
     socket.broadcast.emit('new_user_message', 'test');
