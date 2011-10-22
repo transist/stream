@@ -1,47 +1,33 @@
+var express = require('express'),
+    io = require('socket.io')
+   app = express.createServer()
+  , io = io.listen(app)
+  , nicknames = {};
 
-/**
- * Module dependencies.
- */
+io.sockets.on('connection', function (socket) {
+  socket.on('user message', function (msg) {
+    socket.broadcast.emit('user message', socket.username, msg);
+  });
 
-var express = require('express');
-var io = require('socket.io');
-var app = module.exports = express.createServer();
+  socket.on('username', function (nick, fn) {
+    if (nicknames[nick]) {
+      fn(true);
+    } else {
+      fn(false);
+      nicknames[nick] = socket.nickname = nick;
+      socket.broadcast.emit('announcement', nick + ' connected');
+      io.sockets.emit('nicknames', nicknames);
+    }
+  });
 
-// Configuration
+  socket.on('disconnect', function () {
+    if (!socket.username) return;
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
-
-// Routes
-
-app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Express'
+    delete nicknames[socket.nickname];
+    socket.broadcast.emit('announcement', socket.username + ' disconnected');
+    socket.broadcast.emit('nicknames', nicknames);
   });
 });
 
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
-socket = new io.Socket();
-// Only listen on $ node app.js
 
-if (!module.parent) {
-  app.listen(3000);
-  console.log("Express server listening on port %d", app.address().port);
-}
+app.listen(parseInt(process.env.PORT || 9999));
