@@ -1,11 +1,10 @@
-var express = require('express'),
-    io = require('socket.io')
-   app = express.createServer()
-  , io = io.listen(app);
-   var clients = {};
+var express = require('express')
+  ,      io = require('socket.io')
+  ,     app = express.createServer()
+  ,      io = io.listen(app);
 
 app.get('/', function(request, response) {
-  response.send('Hello World!');
+  response.send('Hello PubSub!');
 });
 
 app.get('/post.json', function(request, response) {
@@ -13,24 +12,16 @@ app.get('/post.json', function(request, response) {
   response.send({'message_sent': true});
 })
 
-
 io.sockets.on('connection', function (socket) {
-  clients[socket.id] = socket;
-  console.log('socket connection')
-
   socket.on('join_room', function (data) {
     socket.join(data)
   });
-  
   socket.on('new_user_message', function (data) {
-    console.log(data)
     socket.broadcast.emit('new_user_message', data);
   });
-  
   socket.on('disconnect', function () {
     console.log('disconnect')
   });
 });
-
 
 app.listen(parseInt(process.env.PORT || 9999));
