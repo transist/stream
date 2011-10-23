@@ -4,13 +4,12 @@ var express = require('express'),
   , io = io.listen(app);
    var clients = {};
 
-  app.get('/', function(request, response) {
-    response.send('Hello World!');
-  });
+app.get('/', function(request, response) {
+  response.send('Hello World!');
+});
 
-app.post('/post.json', function(request, response) {
-  console.log(request)
-  io.sockets.in(request.params.channel).emit(request.params.event_name, request.params.message);
+app.get('/post.json', function(request, response) {
+  io.sockets.in(request.query.channel).emit(request.query.event_name, request.query.message);
   response.send({'message_sent': true});
 })
 
@@ -18,24 +17,9 @@ app.post('/post.json', function(request, response) {
 io.sockets.on('connection', function (socket) {
   clients[socket.id] = socket;
   console.log('socket connection')
-  // socket.on('user message', function (msg) {
-  //   socket.broadcast.emit('user message', 'test', msg);
-  // });
-  // 
-  // socket.on('news', function (nick, fn) {
-  //   if (nicknames[nick]) {
-  //     fn(true);
-  //   } else {
-  //     fn(false);
-  //     nicknames[nick] = socket.nickname = nick;
-  //     socket.broadcast.emit('announcement', nick + ' connected');
-  //     io.sockets.emit('news', nicknames);
-  //   }
-  // });
-  // 
-  socket.on('new_user', function (data) {
-    console.log(data)
-    socket.broadcast.emit('new_user_message', 'test');
+
+  socket.on('join_room', function (data) {
+    socket.join(data)
   });
   
   socket.on('new_user_message', function (data) {
