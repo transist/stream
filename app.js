@@ -8,6 +8,11 @@ app.configure(function(){
   app.use(express.cookieParser());
 });
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 app.get('/', function(request, response) {
   response.send('Hello PubSub!');
 });
