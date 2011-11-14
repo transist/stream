@@ -3,12 +3,26 @@ var express = require('express')
   ,     app = express.createServer()
   ,      io = io.listen(app);
 
+app.configure(function(){
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+});
+
 app.get('/', function(request, response) {
   response.send('Hello PubSub!');
 });
 
 app.get('/post.json', function(request, response) {
   io.sockets.in(request.query.channel).emit(request.query.event_name, request.query.message);
+  response.send({'message_sent': true});
+})
+
+app.post('/batch.json', function(request, response) {
+  console.log(request.body)
+  for (channel in request.body.channels) {
+    console.log(request.body.channels[channel])
+    io.sockets.in(request.body.channels[channel]).emit(request.body.event_name, request.body.message);
+  }
   response.send({'message_sent': true});
 })
 
