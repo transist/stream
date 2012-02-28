@@ -30,7 +30,11 @@ app.post('/batch.json', function(request, response) {
   }
   response.send({'message_sent': true});
 })
- 
+
+app.get('/ping', function(request, response) {
+  res.writeHead( 200, {'Content-Type': 'text/plain'} );
+  res.end( "pong" );
+})
 
 var active_users = 0
 

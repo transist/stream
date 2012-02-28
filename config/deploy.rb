@@ -27,7 +27,6 @@ set :group, 'deploy'
 
 set :deploy_via, :remote_cache
 
-before 'deploy:symlink', 'deploy:assets'
 after 'deploy:update_code', 'deploy:configure'
 
 namespace :bundler do
