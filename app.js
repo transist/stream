@@ -56,4 +56,4 @@ io.sockets.on('connection', function (socket) {
 });
 
 
-app.listen(parseInt(process.env.PORT || 9999));
+app.listen(9999);
