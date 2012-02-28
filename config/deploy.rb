@@ -47,16 +47,20 @@ namespace :deploy do
   end
   
   task :configure, :roles => :app do
+    run "sudo rm -rf /var/www/production_stream/current/node_modules/"
+    run "cd #{release_path} && sudo npm install ."
     # run "ln -s #{shared_path}/config/database.yml #{current_release}/config/database.yml"
     # run "ln -s #{shared_path}/.rvmrc #{current_release}/.rvmrc"
-    # run "ln -s #{shared_path}/thin.yml #{current_release}/config/thin.yml"
+    run "ln -s #{shared_path}/node_modules #{current_release}/node_modules"
   end
 end
 namespace :deploy do
   task :start, :roles => :app, :except   => { :no_release => true } do 
   end
+  
   task :stop, :roles => :app, :except    => { :no_release => true } do 
   end
+  
   task :restart, :roles => :app, :except => { :no_release => true } do
     stop
     start
