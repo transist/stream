@@ -4,6 +4,9 @@ var cluster = require('cluster')
   ,     app = express.createServer()
   ,      io = io.listen(app);
 
+  var NODE_ENV = global.process.env.NODE_ENV || 'development';
+  var PORT = global.process.env.PORT || 8888;
+
 app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.cookieParser());
@@ -55,14 +58,6 @@ io.sockets.on('connection', function (socket) {
     console.log('disconnect')
   });
 });
-
-cluster(app)
-  .use(cluster.logger('logs'))
-  .use(cluster.stats())
-  .use(cluster.pidfiles('pids'))
-  .use(cluster.cli())
-  // .use(cluster.repl(8888))
-  .listen(9999);
 
 
 if (!module.parent) {
