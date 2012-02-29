@@ -47,7 +47,7 @@ namespace :deploy do
   end
   
   task :configure, :roles => :app do
-    run "sudo rm -rf /var/www/production_stream/current/node_modules/"
+    
     run "cd #{release_path} && sudo npm install ."
     # run "ln -s #{shared_path}/config/database.yml #{current_release}/config/database.yml"
     # run "ln -s #{shared_path}/.rvmrc #{current_release}/.rvmrc"
@@ -56,9 +56,11 @@ namespace :deploy do
 end
 namespace :deploy do
   task :start, :roles => :app, :except   => { :no_release => true } do 
+    run "sudo /etc/init.d/production_stream start"
   end
   
-  task :stop, :roles => :app, :except    => { :no_release => true } do 
+  task :stop, :roles => :app, :except    => { :no_release => true } do
+    run "sudo /etc/init.d/production_stream stop"
   end
   
   task :restart, :roles => :app, :except => { :no_release => true } do
