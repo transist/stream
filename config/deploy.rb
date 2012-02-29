@@ -51,7 +51,7 @@ namespace :deploy do
     run "cd #{release_path} && sudo npm install ."
     # run "ln -s #{shared_path}/config/database.yml #{current_release}/config/database.yml"
     # run "ln -s #{shared_path}/.rvmrc #{current_release}/.rvmrc"
-    run "ln -s #{shared_path}/node_modules #{current_release}/node_modules"
+    run "ln -s #{shared_path}/node_modules/ #{current_release}/node_modules"
   end
 end
 namespace :deploy do
