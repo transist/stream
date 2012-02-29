@@ -91,9 +91,7 @@ io.sockets.on('connection', function (socket) {
 if (!module.parent) {
   if (NODE_ENV !== 'development') {
     cluster(app)
-      .use(cluster.stats())
       .use(cluster.pidfiles('pids'))
-      .use(cluster.cli())
       // .use(cluster.repl(8080))
       .listen(app.set("listening_port"))
   } else {
