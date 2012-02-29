@@ -6,7 +6,7 @@ var cluster = require('cluster')
 
   var NODE_ENV = global.process.env.NODE_ENV || 'development';
   var PORT = global.process.env.PORT || 8888;
-
+  var fs = require('fs');
 app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.cookieParser());
