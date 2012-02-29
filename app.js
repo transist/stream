@@ -1,5 +1,5 @@
-var express = require('express')
-  , cluster = require('cluster')
+var cluster = require('cluster')
+  , express = require('express')
   ,      io = require('socket.io')
   ,     app = express.createServer()
   ,      io = io.listen(app);
@@ -61,5 +61,20 @@ cluster(app)
   .use(cluster.stats())
   .use(cluster.pidfiles('pids'))
   .use(cluster.cli())
-  .use(cluster.repl(8888))
+  // .use(cluster.repl(8888))
   .listen(9999);
+
+
+if (!module.parent) {
+  if (NODE_ENV !== 'development') {
+    cluster(app)
+      .use(cluster.logger('logs'))
+      .use(cluster.stats())
+      .use(cluster.pidfiles('pids'))
+      .use(cluster.cli())
+      // .use(cluster.repl(8080))
+      .listen(app.set("listening_port"))
+  } else {
+    app.listen(app.set("listening_port"))
+  }
+}
