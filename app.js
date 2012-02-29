@@ -87,14 +87,4 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-
-if (!module.parent) {
-  if (NODE_ENV !== 'development') {
-    cluster(app)
-      .use(cluster.pidfiles('pids'))
-      // .use(cluster.repl(8080))
-      .listen(app.set("listening_port"))
-  } else {
-    app.listen(app.set("listening_port"))
-  }
-}
+app.listen(app.set("listening_port"))
