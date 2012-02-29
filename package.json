@@ -9,7 +9,7 @@
     , "socket.io": "*"
     , "redis": "*"
     , "hiredis": "*"
-    , "forever": "0"
+    , "forever": "*"
     
   }
   ,  "engine": "node >= 0.7.5"
