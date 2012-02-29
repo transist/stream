@@ -9,6 +9,7 @@
     , "socket.io": "*"
     , "redis": "*"
     , "hiredis": "*"
+    , "cluster": "*"
     
   }
   ,  "engine": "node >= 0.5.0"

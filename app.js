@@ -1,4 +1,5 @@
 var express = require('express')
+  , cluster = require('cluster')
   ,      io = require('socket.io')
   ,     app = express.createServer()
   ,      io = io.listen(app);
@@ -55,5 +56,10 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-
-app.listen(9999);
+cluster(app)
+  .use(cluster.logger('logs'))
+  .use(cluster.stats())
+  .use(cluster.pidfiles('pids'))
+  .use(cluster.cli())
+  .use(cluster.repl(8888))
+  .listen(9999);
