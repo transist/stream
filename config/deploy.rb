@@ -47,8 +47,8 @@ namespace :deploy do
   end
   
   task :configure, :roles => :app do
-    run "sudo rm -rf  #{previous_release}/node_modules"
-    run "cd #{release_path} && sudo npm install ."
+    # run "sudo rm -rf  #{previous_release}/node_modules"
+    # run "cd #{release_path} && sudo npm install ."
     # run "ln -s #{shared_path}/config/database.yml #{current_release}/config/database.yml"
     # run "ln -s #{shared_path}/.rvmrc #{current_release}/.rvmrc"
     run "ln -s #{shared_path}/node_modules/ #{current_release}/node_modules"
