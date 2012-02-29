@@ -12,5 +12,5 @@
     , "cluster": "*"
     
   }
-  ,  "engine": "node": "< v0.5.10"
+  ,  "engine": "node < 0.5.10"
 }
