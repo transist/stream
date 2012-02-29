@@ -12,6 +12,35 @@ app.configure(function(){
   app.use(express.cookieParser());
 });
 
+app.configure('development', function() {
+  app.set("db_name", 'aggregation_development')
+  app.set("listening_port", 8888)
+  // app.set('db_address', 'mongodb://localhost/aggregation_development')
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms'}))
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function() {
+  // app.set('db_address', 'mongodb://localhost/imifan_production')
+  app.set("listening_port", 8888)
+  app.use(express.cookieParser());
+  app.use(express.bodyParser());
+  app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms', stream: fs.createWriteStream(__dirname + '/logs/'+NODE_ENV+'.log') }))
+  app.use(express.session({ store: new RedisStore, secret: 'keyboard cat', expires: false }));
+  app.use(express.errorHandler());
+});
+
+app.configure('staging', function() {
+  // app.set('db_address', 'mongodb://localhost/imifan_production')
+  app.set("listening_port", 9999)
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms', stream: fs.createWriteStream(__dirname + '/logs/'+NODE_ENV+'.log') }))
+  app.use(express.errorHandler());
+});
+
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 

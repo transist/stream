@@ -5,7 +5,7 @@
   , "description": "stream"
   , "author": "Scott Ballantyne <ussballantyne@gmail.com>"
   , "dependencies": {
-    "express": "*"
+    "express": "2.2.2"
     , "socket.io": "*"
     , "redis": "*"
     , "hiredis": "*"
