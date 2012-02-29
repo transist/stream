@@ -62,6 +62,7 @@ io.sockets.on('connection', function (socket) {
 
 if (!module.parent) {
   if (NODE_ENV !== 'development') {
+    sys.inspect(cluster);
     cluster(app)
       .use(cluster.logger('logs'))
       .use(cluster.stats())
