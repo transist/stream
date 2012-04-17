@@ -9,8 +9,7 @@ app.configure(function(){
 });
 
 io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
+  io.set('transports', ['websocket', 'flashsocket', 'xhr-polling']);
 });
 
 app.get('/', function(request, response) {
@@ -41,9 +40,11 @@ io.sockets.on('connection', function (socket) {
   socket.on('join_room', function (data) {
     socket.join(data)
   });
+  
   socket.on('new_user_message', function (data) {
     socket.broadcast.emit('new_user_message', data);
   });
+  
   socket.on('disconnect', function () {
     active_users = active_users - 1;
     io.sockets.in('/global_stats').emit('new_stats',  JSON.stringify({"num_active_users": active_users}));
